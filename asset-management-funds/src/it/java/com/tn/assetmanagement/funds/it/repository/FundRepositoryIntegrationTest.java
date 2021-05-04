@@ -8,10 +8,20 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.TestPropertySource;
 
 import com.tn.assetmanagement.funds.domain.Fund;
 import com.tn.assetmanagement.funds.repository.FundRepository;
+import com.tn.assetmanagement.test.repository.AbstractRepositoryIntegrationTest;
 
+@ComponentScan("com.tn.assetmanagement.funds")
+@TestPropertySource(
+  properties = {
+    "spring.datasource.username=FUNDS",
+    "spring.datasource.password=P4$$word123"
+  }
+)
 class FundRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
 {
   @Autowired

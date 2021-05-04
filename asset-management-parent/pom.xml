@@ -17,7 +17,8 @@
   <properties>
 
     <!-- asset-management versions -->
-    
+    <asset-management-util.version>0.0.01-SNAPSHOT</asset-management-util.version>
+    <asset-management-web.version>0.0.01-SNAPSHOT</asset-management-web.version>
 
     <!-- 3rd party versions -->
     <cucumber.version>4.8.0</cucumber.version>
@@ -90,6 +91,32 @@
 
       <!-- asset-management -->
 
+      <dependency>
+        <groupId>com.tn.assetmanagement</groupId>
+        <artifactId>asset-management-test-repository</artifactId>
+        <version>0.0.01-SNAPSHOT</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.tn.assetmanagement</groupId>
+        <artifactId>asset-management-test-web</artifactId>
+        <version>0.0.01-SNAPSHOT</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.tn.assetmanagement</groupId>
+        <artifactId>asset-management-util</artifactId>
+        <version>${asset-management-util.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.tn.assetmanagement</groupId>
+        <artifactId>asset-management-web</artifactId>
+        <version>${asset-management-web.version}</version>
+      </dependency>
+
       <!-- 3rd party -->
 
       <dependency>
@@ -132,10 +159,24 @@
         <scope>test</scope>
       </dependency>
 
+
+      <dependency>
+        <groupId>io.projectreactor</groupId>
+        <artifactId>reactor-test</artifactId>
+        <version>3.4.5</version>
+        <scope>test</scope>
+      </dependency>
+
       <dependency>
         <groupId>org.flywaydb</groupId>
         <artifactId>flyway-core</artifactId>
         <version>7.8.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>3.6.28</version>
       </dependency>
 
       <dependency>

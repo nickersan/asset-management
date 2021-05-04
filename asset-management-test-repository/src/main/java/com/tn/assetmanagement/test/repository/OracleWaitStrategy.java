@@ -1,6 +1,4 @@
-package com.tn.assetmanagement.funds.it.repository;
-
-import static java.lang.String.format;
+package com.tn.assetmanagement.test.repository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -91,6 +89,6 @@ public class OracleWaitStrategy implements WaitStrategy
 
   private String connectionUrl(WaitStrategyTarget waitStrategyTarget)
   {
-    return format(ORACLE_CONNECTION_URL, waitStrategyTarget.getMappedPort(ORACLE_PORT));
+    return String.format(ORACLE_CONNECTION_URL, waitStrategyTarget.getMappedPort(ORACLE_PORT));
   }
 }

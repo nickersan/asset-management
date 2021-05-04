@@ -1,4 +1,4 @@
-package com.tn.assetmanagement.funds.it.repository;
+package com.tn.assetmanagement.test.repository;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,9 +24,8 @@ import org.testcontainers.utility.DockerImageName;
     "spring.datasource.password=P4$$word123"
   }
 )
-@ComponentScan("com.tn.assetmanagement.funds")
 @Testcontainers
-class AbstractRepositoryIntegrationTest
+public class AbstractRepositoryIntegrationTest
 {
   static final String PASSWORD_ORACLE_SYSTEM = "P4$$word123";
 
