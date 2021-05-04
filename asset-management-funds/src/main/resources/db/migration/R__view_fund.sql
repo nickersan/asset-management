@@ -1,0 +1,1 @@
+CREATE OR REPLACE VIEW v_funds AS SELECT * FROM funds WHERE deleted IS NULL;

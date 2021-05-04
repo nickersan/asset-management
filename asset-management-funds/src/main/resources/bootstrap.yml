@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: "asset-management-funds"
+  banner:
+    location: classpath:banner.txt
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+#spring.jpa.database-platform=org.hibernate.dialect.Oracle10gDialect
