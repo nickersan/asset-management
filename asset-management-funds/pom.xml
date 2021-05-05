@@ -30,6 +30,11 @@
 
     <dependency>
       <groupId>com.tn.assetmanagement</groupId>
+      <artifactId>asset-management-test-web</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.tn.assetmanagement</groupId>
       <artifactId>asset-management-util</artifactId>
     </dependency>
 

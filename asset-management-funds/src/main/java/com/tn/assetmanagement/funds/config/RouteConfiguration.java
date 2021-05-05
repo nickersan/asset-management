@@ -35,7 +35,7 @@ class RouteConfiguration
         route(method(GET).and(path(idPath())), fundHandler::get)
           .andRoute(method(GET), noArg(fundHandler::getAll))
           .andRoute(method(POST), fundHandler::post)
-          .andRoute(method(PUT).and(path(idPath())), fundHandler::put)
+          .andRoute(method(PUT), fundHandler::put)
           .andRoute(method(DELETE).and(path(idPath())), fundHandler::delete)
       )
     );

@@ -1,51 +1,35 @@
 package com.tn.assetmanagement.funds.it.api;
 
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.ReactiveAdapterRegistry;
-import org.springframework.core.ReactiveTypeDescriptor;
-import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.util.UriBuilder;
-import reactor.core.publisher.Mono;
+import org.springframework.http.HttpStatus;
 
 import com.tn.assetmanagement.funds.domain.Fund;
 import com.tn.assetmanagement.funds.repository.FundRepository;
+import com.tn.assetmanagement.funds.repository.RepositoryException;
+import com.tn.assetmanagement.test.web.AbstractWebIntegrationTest;
 
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @ComponentScan("com.tn.assetmanagement.funds")
-class FundApiIntegrationTest
+class FundApiIntegrationTest extends AbstractWebIntegrationTest
 {
-  private static final String HOST = "localhost";
   private static final String PATH_FUND = "fund";
   private static final String PATH_VERSION_1 = "1";
-  private static final String SCHEME = "http";
 
   @MockBean
   FundRepository fundRepository;
-
-  @LocalServerPort
-  int port;
-
-  @Autowired
-  WebTestClient webTestClient;
 
   @Test
   void testGet()
@@ -56,7 +40,15 @@ class FundApiIntegrationTest
 
     when(this.fundRepository.findAll()).thenReturn(List.of(fund1, fund2, fund3));
 
-    assertGet(url(PATH_VERSION_1, PATH_FUND), fund1, fund2, fund3);
+    assertGet(url(PATH_VERSION_1, PATH_FUND), HttpStatus.OK, fund1, fund2, fund3);
+  }
+
+  @Test
+  void testGetWhenErrorOccurs()
+  {
+    when(this.fundRepository.findAll()).thenThrow(new RepositoryException("Testing"));
+
+    assertGet(url(PATH_VERSION_1, PATH_FUND), HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   @Test
@@ -66,7 +58,23 @@ class FundApiIntegrationTest
 
     when(this.fundRepository.findForId(fund.getId())).thenReturn(Optional.of(fund));
 
-    assertGet(url(PATH_VERSION_1, PATH_FUND, Integer.toString(fund.getId())), fund);
+    assertGet(url(PATH_VERSION_1, PATH_FUND, fund.getId()), HttpStatus.OK, fund);
+  }
+
+  @Test
+  void testGetWithIdWhenErrorOccurs()
+  {
+    int fundId = 1;
+
+    when(this.fundRepository.findForId(fundId)).thenThrow(new RepositoryException("Testing"));
+
+    assertGet(url(PATH_VERSION_1, PATH_FUND, fundId), HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @Test
+  void testGetWithBadId()
+  {
+    assertGet(url(PATH_VERSION_1, PATH_FUND, "X"), HttpStatus.BAD_REQUEST);
   }
 
   @Test
@@ -77,30 +85,69 @@ class FundApiIntegrationTest
 
     when(this.fundRepository.save(fund)).thenReturn(fundId);
 
-    assertPost(url(PATH_VERSION_1, PATH_FUND), fund, fund.withId(fundId));
+    assertPost(url(PATH_VERSION_1, PATH_FUND), fund, HttpStatus.OK, fund.withId(fundId));
   }
 
-  private Function<UriBuilder, URI> url(String... elements)
+  @Test
+  void testPostWhenErrorOccurs()
   {
-    return uriBuilder -> uriBuilder.scheme(SCHEME).host(HOST).port(this.port).pathSegment(elements).build();
+    Fund fund = new Fund("Fund 1", "F1");
+
+    when(this.fundRepository.save(fund)).thenThrow(new RepositoryException("Testing"));
+
+    assertPost(url(PATH_VERSION_1, PATH_FUND), fund, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
-  private void assertGet(Function<UriBuilder, URI> uriFunction, Fund... expected)
+  @Test
+  void testPut()
   {
-    this.webTestClient.get().uri(uriFunction)
-      .exchange()
-      .expectStatus().isOk()
-      .expectBodyList(Fund.class)
-      .contains(expected);
+    int fundId = 1;
+    Fund fund = new Fund("Fund 1", "F1");
+
+    when(this.fundRepository.save(fund)).thenReturn(fundId);
+
+    assertPut(url(PATH_VERSION_1, PATH_FUND), fund, HttpStatus.OK, fund.withId(fundId));
   }
 
-  private void assertPost(Function<UriBuilder, URI> uriFunction, Fund body, Fund expected)
+  @Test
+  void testPutWhenErrorOccurs()
   {
-    this.webTestClient.post().uri(uriFunction)
-      .body(Mono.just(body), Fund.class)
-      .exchange()
-      .expectStatus().isOk()
-      .expectBodyList(Fund.class)
-      .contains(expected);
+    Fund fund = new Fund("Fund 1", "F1");
+
+    when(this.fundRepository.save(fund)).thenThrow(new RepositoryException("Testing"));
+
+    assertPut(url(PATH_VERSION_1, PATH_FUND), fund, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @Test
+  void testDelete()
+  {
+    int fundId = 10;
+
+    assertDelete(url(PATH_VERSION_1, PATH_FUND, fundId), HttpStatus.OK);
+
+    verify(this.fundRepository).delete(fundId);
+  }
+
+  @Test
+  void testDeleteWithoutId()
+  {
+    assertDelete(url(PATH_VERSION_1, PATH_FUND), HttpStatus.NOT_FOUND);
+  }
+
+  @Test
+  void testDeleteWhenErrorOccurs()
+  {
+    int fundId = 1;
+
+    doThrow(new RepositoryException("Testing")).when(this.fundRepository).delete(fundId);
+
+    assertDelete(url(PATH_VERSION_1, PATH_FUND, fundId), HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @Test
+  void testDeleteWithBadId()
+  {
+    assertDelete(url(PATH_VERSION_1, PATH_FUND, "X"), HttpStatus.BAD_REQUEST);
   }
 }
