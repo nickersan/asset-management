@@ -25,12 +25,12 @@
 
     <dependency>
       <groupId>com.tn.assetmanagement</groupId>
-      <artifactId>asset-management-test-repository</artifactId>
+      <artifactId>asset-management-repository-test</artifactId>
     </dependency>
 
     <dependency>
       <groupId>com.tn.assetmanagement</groupId>
-      <artifactId>asset-management-test-web</artifactId>
+      <artifactId>asset-management-web-test</artifactId>
     </dependency>
 
     <dependency>

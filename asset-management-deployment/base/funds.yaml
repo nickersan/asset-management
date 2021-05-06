@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: funds
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    role: funds
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: funds
+  labels:
+    role: funds
+spec:
+  template:
+    metadata:
+      labels:
+        role: funds
+    spec:
+      containers:
+        - name: funds
+          image: funds
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: asset-management-config
+                  key: datasource.url
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: asset-management-config
+                  key: funds.datasource.username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: asset-management-config
+                  key: funds.datasource.password
+#      initContainers:
+#        - name: init-zipkin
+#          image: tutum/dnsutils:latest
+#          command: ["sh", "-c", "until dig zipkin; do echo waiting for zipkin; sleep 2; done;"]
+#        - name: init-hazelcast
+#          image: tutum/dnsutils:latest
+#          command: ["sh", "-c", "until dig hazelcast; do echo waiting for hazelcast; sleep 2; done;"]
+  selector:
+    matchLabels:
+      role: funds

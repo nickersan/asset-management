@@ -1,0 +1,7 @@
+asset-management-parent
+asset-management-util
+asset-management-repository-test
+asset-management-web
+asset-management-web-test
+asset-management-funds
+asset-management-funds-container

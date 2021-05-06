@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: funds
+spec:
+  replicas: 3
+  template:
+    spec:
+      containers:
+        - name: funds
+          env:
+            - name: LOGGING_LEVEL_COM_TN_ASSETMANAGEMENT
+              value: DEBUG

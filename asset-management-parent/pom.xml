@@ -30,8 +30,10 @@
     <reactor.version>3.4.5</reactor.version>
     <spring.version>5.3.6</spring.version>
     <spring-boot.version>2.4.5</spring-boot.version>
-    <spring-cloud.version>2.2.1.RELEASE</spring-cloud.version>
+    <spring-cloud.version>1.1.9.RELEASE</spring-cloud.version>
     <test-containers.version>1.15.3</test-containers.version>
+
+    <docker-image-repository>${project.name}</docker-image-repository>
 
     <maven.compiler.release>11</maven.compiler.release>
     <maven.compiler.source>11</maven.compiler.source>
@@ -94,14 +96,20 @@
 
       <dependency>
         <groupId>com.tn.assetmanagement</groupId>
-        <artifactId>asset-management-test-repository</artifactId>
+        <artifactId>asset-management-funds</artifactId>
+        <version>0.0.01-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.tn.assetmanagement</groupId>
+        <artifactId>asset-management-repository-test</artifactId>
         <version>0.0.01-SNAPSHOT</version>
         <scope>test</scope>
       </dependency>
 
       <dependency>
         <groupId>com.tn.assetmanagement</groupId>
-        <artifactId>asset-management-test-web</artifactId>
+        <artifactId>asset-management-web-test</artifactId>
         <version>0.0.01-SNAPSHOT</version>
         <scope>test</scope>
       </dependency>
@@ -285,8 +293,8 @@
 
       <dependency>
         <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-kubernetes</artifactId>
-        <version>1.1.9.RELEASE</version>
+        <artifactId>spring-cloud-starter-kubernetes</artifactId>
+        <version>${spring-cloud.version}</version>
       </dependency>
 
       <dependency>
@@ -571,6 +579,9 @@
         <file>
           <exists>Dockerfile</exists>
         </file>
+        <property>
+          <name>!skipDocker</name>
+        </property>
       </activation>
       <build>
         <plugins>
@@ -590,7 +601,7 @@
               </execution>
             </executions>
             <configuration>
-              <repository>decima/${project.name}</repository>
+              <repository>${docker-image-repository}</repository>
               <tag>${project.version}</tag>
               <buildArgs>
                 <IMAGE_DIR>target/${project.name}-${project.version}</IMAGE_DIR>
