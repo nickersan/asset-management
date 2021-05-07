@@ -21,11 +21,13 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.data.relational.core.sql.In;
 
 @AllArgsConstructor
 @EqualsAndHashCode
 @Getter
+@ToString
 @JsonSerialize(using = Fund.Serializer.class)
 @JsonDeserialize(using = Fund.Deserializer.class)
 public class Fund

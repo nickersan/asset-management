@@ -30,7 +30,7 @@
     <reactor.version>3.4.5</reactor.version>
     <spring.version>5.3.6</spring.version>
     <spring-boot.version>2.4.5</spring-boot.version>
-    <spring-cloud.version>1.1.9.RELEASE</spring-cloud.version>
+    <spring-cloud.version>2.2.1.RELEASE</spring-cloud.version>
     <test-containers.version>1.15.3</test-containers.version>
 
     <docker-image-repository>${project.name}</docker-image-repository>
@@ -182,9 +182,21 @@
       </dependency>
 
       <dependency>
+        <groupId>io.zipkin.brave</groupId>
+        <artifactId>brave</artifactId>
+        <version>5.9.5</version>
+      </dependency>
+
+      <dependency>
         <groupId>org.flywaydb</groupId>
         <artifactId>flyway-core</artifactId>
         <version>7.8.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.glassfish</groupId>
+        <artifactId>javax.json</artifactId>
+        <version>1.1.4</version>
       </dependency>
 
       <dependency>
@@ -227,6 +239,12 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-web</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webflux</artifactId>
         <version>${spring.version}</version>
       </dependency>
 
@@ -294,6 +312,18 @@
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-kubernetes</artifactId>
+        <version>1.1.9.RELEASE</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-sleuth</artifactId>
+        <version>${spring-cloud.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-zipkin</artifactId>
         <version>${spring-cloud.version}</version>
       </dependency>
 

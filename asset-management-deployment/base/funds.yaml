@@ -41,13 +41,13 @@ spec:
                 configMapKeyRef:
                   name: asset-management-config
                   key: funds.datasource.password
-#      initContainers:
+      initContainers:
 #        - name: init-zipkin
 #          image: tutum/dnsutils:latest
 #          command: ["sh", "-c", "until dig zipkin; do echo waiting for zipkin; sleep 2; done;"]
-#        - name: init-hazelcast
-#          image: tutum/dnsutils:latest
-#          command: ["sh", "-c", "until dig hazelcast; do echo waiting for hazelcast; sleep 2; done;"]
+        - name: init-hazelcast
+          image: tutum/dnsutils:latest
+          command: ["sh", "-c", "until dig oraclexe; do echo waiting for oraclexe; sleep 2; done;"]
   selector:
     matchLabels:
       role: funds

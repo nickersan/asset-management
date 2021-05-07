@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project 
+	xmlns="http://maven.apache.org/POM/4.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>com.tn.assetmanagement</groupId>
+    <artifactId>asset-management-parent</artifactId>
+    <version>0.0.01-SNAPSHOT</version>
+  </parent>
+  
+  <artifactId>asset-management-acceptance</artifactId>
+  <version>0.0.01-SNAPSHOT</version>
+  
+  <packaging>jar</packaging>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-junit</artifactId>
+   </dependency>
+
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-spring</artifactId>
+    </dependency>
+
+<!--    <dependency>-->
+<!--      <groupId>io.zipkin.brave</groupId>-->
+<!--      <artifactId>brave</artifactId>-->
+<!--    </dependency>-->
+
+    <dependency>
+      <groupId>org.glassfish</groupId>
+      <artifactId>javax.json</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+    </dependency>
+
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.boot</groupId>-->
+<!--      <artifactId>spring-boot</artifactId>-->
+<!--    </dependency>-->
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+    </dependency>
+
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.cloud</groupId>-->
+<!--      <artifactId>spring-cloud-starter-sleuth</artifactId>-->
+<!--    </dependency>-->
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-webflux</artifactId>
+    </dependency>
+
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.cloud</groupId>-->
+<!--      <artifactId>spring-cloud-starter-zipkin</artifactId>-->
+<!--    </dependency>-->
+
+  </dependencies>
+
+  <build>
+
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <!-- Down grading version - needed to run Cucumber tests -->
+        <version>2.12.4</version>
+        <configuration>
+          <includes>
+            <include>none</include>
+          </includes>
+        </configuration>
+        <executions>
+          <execution>
+            <id>system-test</id>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <phase>integration-test</phase>
+            <configuration>
+              <environmentVariables>
+                <decima.systemtest.mode>integratedTestMode</decima.systemtest.mode>
+                <decima.systemtest.service.valueApi.debug>true</decima.systemtest.service.valueApi.debug>
+                <decima.systemtest.service.hazelcast.debug>true</decima.systemtest.service.hazelcast.debug>
+                <spring.zipkin.enabled>false</spring.zipkin.enabled>
+              </environmentVariables>
+              <includes>
+                <include>**/Suite.java</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+
+  </build>
+
+</project>
