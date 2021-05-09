@@ -21,6 +21,15 @@
 
   <dependencies>
 
+    <!-- asset-management -->
+
+    <dependency>
+      <groupId>com.tn.assetmanagement</groupId>
+      <artifactId>asset-management-util</artifactId>
+    </dependency>
+
+    <!-- 3rd party -->
+
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-java</artifactId>

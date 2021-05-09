@@ -6,8 +6,8 @@ spec:
   clusterIP: None
   ports:
     - name: listener
-      port: 1521
       protocol: TCP
+      port: 1521
       targetPort: 51521
   selector:
     role: oraclexe

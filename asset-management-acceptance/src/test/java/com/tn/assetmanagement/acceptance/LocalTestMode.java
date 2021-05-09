@@ -1,19 +1,18 @@
 package com.tn.assetmanagement.acceptance;
 
-import java.util.Collection;
+import static java.util.stream.Collectors.toList;
+
 import javax.json.JsonObject;
 
-import org.springframework.web.reactive.function.client.WebClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LocalTestMode extends TestMode
 {
+  private static final Logger LOGGER = LoggerFactory.getLogger(LocalTestMode.class);
+
   private static final String HOST = "localhost";
   private static final int PORT_FUND = 8080;
-
-  public LocalTestMode(WebClient.Builder webClientBuilder, boolean apiDebug)
-  {
-    super(webClientBuilder, apiDebug);
-  }
 
   @Override
   protected String getFundHost()
@@ -30,7 +29,9 @@ public class LocalTestMode extends TestMode
   @Override
   protected void initializeSystem()
   {
-    // No initialization required - local model expects the services to be running and listening on 8080.
+    //Deleting all the funds the exist in the system - should be safe locally.
+    LOGGER.info("Clearing existing funds");
+    deleteFunds(getFunds().stream().map(JsonObject.class::cast).collect(toList()));
   }
 
   @Override

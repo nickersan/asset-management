@@ -11,3 +11,5 @@ Feature: Fund API
 
     Then all funds can be retrieved
     And a specific fund can be retrieved
+    And a specific fund can be updated
+    And a specific fund can be deleted
