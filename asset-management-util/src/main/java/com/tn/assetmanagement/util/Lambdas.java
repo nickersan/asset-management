@@ -6,14 +6,14 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class Lambdas
+public interface Lambdas
 {
-  public static Throwable unwrapException(Throwable e)
+  static Throwable unwrapException(Throwable e)
   {
     return e instanceof WrappedException ? e.getCause() : e;
   }
 
-  public static <T, U> BiConsumer<T, U> wrapBiConsumer(BiConsumerWithThrows<T, U, ?> biConsumerWithThrows)
+  static <T, U> BiConsumer<T, U> wrapBiConsumer(BiConsumerWithThrows<T, U, ?> biConsumerWithThrows)
   {
     return (t, u) ->
     {
@@ -28,7 +28,7 @@ public class Lambdas
     };
   }
 
-  public static <T, U, R> BiFunction<T, U, R> wrapBiFunction(BiFunctionWithThrows<T, U, R, ?> biFunctionWithThrows)
+  static <T, U, R> BiFunction<T, U, R> wrapBiFunction(BiFunctionWithThrows<T, U, R, ?> biFunctionWithThrows)
   {
     return (t, u) ->
     {
@@ -43,7 +43,7 @@ public class Lambdas
     };
   }
 
-  public static <T> Consumer<T> wrapConsumer(ConsumerWithThrows<T, ?> consumerWithThrows)
+  static <T> Consumer<T> wrapConsumer(ConsumerWithThrows<T, ?> consumerWithThrows)
   {
     return t ->
     {
@@ -58,7 +58,7 @@ public class Lambdas
     };
   }
 
-  public static <T, R> Function<T, R> wrapFunction(FunctionWithThrows<T, R, ?> functionWithThrows)
+  static <T, R> Function<T, R> wrapFunction(FunctionWithThrows<T, R, ?> functionWithThrows)
   {
     return t ->
     {
@@ -73,7 +73,7 @@ public class Lambdas
     };
   }
 
-  public static <T> Supplier<T> wrapSupplier(SupplierWithThrows<T, ?> supplierWithThrows)
+  static <T> Supplier<T> wrapSupplier(SupplierWithThrows<T, ?> supplierWithThrows)
   {
     return () ->
     {

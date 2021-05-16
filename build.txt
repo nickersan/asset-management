@@ -1,5 +1,6 @@
 asset-management-parent
 asset-management-util
+asset-management-repository
 asset-management-repository-test
 asset-management-web
 asset-management-web-test

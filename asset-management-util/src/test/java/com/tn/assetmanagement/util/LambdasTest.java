@@ -16,6 +16,20 @@ import org.junit.jupiter.api.Test;
 class LambdasTest
 {
   @Test
+  void testUnwrapException()
+  {
+    Throwable e = new Throwable();
+    assertEquals(e, Lambdas.unwrapException(e));
+  }
+
+  @Test
+  void testUnwrapExceptionWithWrappedException()
+  {
+    Throwable e = new Throwable();
+    assertEquals(e, Lambdas.unwrapException(new WrappedException(e)));
+  }
+
+  @Test
   void testWrapBiConsumer()
   {
     String expected1 = "testing";
